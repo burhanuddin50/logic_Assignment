@@ -47,6 +47,7 @@ string infixToPrefix(string str){
 };
 */
 BinaryTreeNode* prefixToTree(string str,BinaryTreeNode* root){
+    BinaryTreeNode* p=new BinaryTreeNode(str[0],root);
      if(str[0]=='*'||str[0]=='+'|| str[0]=='>' || str[0]=='~'){
            root->left=prefixToTree(str.substr(1,str.size()-1),root->left);
      }
@@ -58,7 +59,7 @@ BinaryTreeNode* prefixToTree(string str,BinaryTreeNode* root){
           }
           root->right=prefixToTree(str.substr(1,str.size()-1),root->right);
      }
-    
+    return p;
 }
 
 
