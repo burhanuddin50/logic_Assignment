@@ -7,10 +7,12 @@ class BinaryTreeNode{
     char data;
     BinaryTreeNode*left;
     BinaryTreeNode*right;
-    BinaryTreeNode(char data){
+    BinaryTreeNode*parent;
+    BinaryTreeNode(char data,BinaryTreeNode* parent){
         this->data=data;
         left=NULL;
         right=NULL;
+        this->parent=parent;
     }
 };
 
@@ -39,16 +41,25 @@ string infixToPrefix(string str){
     return "";
 }
 
-class Pair{
+/*class Pair{
     BinaryTreeNode* root;
     int index;
 };
-
-/*Pair prefixToTree(string str, BinaryTreeNode*root){
-    BinaryTreeNode*left=new BinaryTreeNode(str[0]);
-    BinaryTreeNode*finalLeft=prefixToTree(str+1,left);
-    BinaryTreeNode*
-}*/
+*/
+BinaryTreeNode* prefixToTree(string str,BinaryTreeNode* root){
+     if(str[0]=='*'||str[0]=='+'|| str[0]=='>' || str[0]=='~'){
+           root->left=prefixToTree(str.substr(1,str.size()-1),root->left);
+     }
+     if(isalpha(str[0]))
+     {
+          while(root->parent->right)
+          {
+            root=root->parent;
+          }
+          root->right=prefixToTree(str.substr(1,str.size()-1),root->right);
+     }
+    
+}
 
 
 int main(){
@@ -57,8 +68,7 @@ int main(){
     cin>>str;
     string ans=infixToPrefix(str);
     cout<<ans;
-    /*BinaryTreeNode* root=new BinaryTreeNode(ans[0]);
-    BinaryTreeNode*finalRoot=prefixToTree(ans+1,root);*/    
-
+    BinaryTreeNode* root=new BinaryTreeNode(ans[0],NULL);
+    BinaryTreeNode*finalRoot=prefixToTree(str.substr(1,str.size()-1),root);   
     return 0;
 }
